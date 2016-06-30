@@ -17,8 +17,14 @@ class EntryController {
     // MARK: - Methods
     
     func addEntry(entry: Entry) {
-        
         entries.append(entry)
+    }
+    
+    func updateEntry(existingEntry: Entry, withEntry updatedEntry: Entry) {
+        
+        if let index = entries.indexOf(existingEntry) {
+            entries[index] = updatedEntry
+        }
         
     }
     

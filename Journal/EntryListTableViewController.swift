@@ -87,17 +87,27 @@ class EntryListTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        // How are we getting there?
+        // How am I getting there?
         if segue.identifier == "newEntryDetailSegue" {
             
             // Just go there
             
         } else if segue.identifier == "existingEntryDetailSegue" {
             
-            
-            
+            // Where am I going?
+            if let entryDetailViewController = segue.destinationViewController as? EntryDetailViewController {
+                
+                // What am I packing?
+                if let index = tableView.indexPathForSelectedRow?.row {
+                    
+                    let entry = EntryController.sharedController.entries[index]
+                    
+                    // Did I/it get there?
+                    entryDetailViewController.existingEntry = entry
+                    //entryDetailViewController.updatedEntryIndex = index
+                }
+            }
         }
-        
     }
     
 

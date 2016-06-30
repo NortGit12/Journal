@@ -10,7 +10,8 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    var entry: Entry?
+    var existingEntry: Entry?
+    //var updatedEntryIndex = -1
 
     // MARK: - Properties
     @IBOutlet weak var titleTextField: UITextField!
@@ -24,7 +25,7 @@ class EntryDetailViewController: UIViewController {
         
         bodyTextArea.layer.borderColor = UIColor.blackColor().CGColor
 
-        if let entry = entry {
+        if let entry = existingEntry {
             updateWith(entry)
         }
     }
@@ -40,14 +41,30 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func saveButtonTapped(sender: AnyObject) {
+
         guard let title = titleTextField?.text, let body = bodyTextArea?.text where title.characters.count > 0 && body.characters.count > 0 else {
             return
         }
         
         let now = NSDate()
-        let entry = Entry(title: title, text: body, timestamp: now)
-        
-        EntryController.sharedController.addEntry(entry)
+
+        /*
+         * Handling:
+         *  if = existing Entry
+         *  else if = new Entry
+         */
+        if let existingEntry = existingEntry {
+            
+            
+            let updatedEntry = Entry(title: title, text: body, timestamp: now)
+            EntryController.sharedController.updateEntry(existingEntry, withEntry: updatedEntry)
+            
+        } else {
+
+            let newEntry = Entry(title: title, text: body, timestamp: now)
+            
+            EntryController.sharedController.addEntry(newEntry)
+        }
         
         navigationController?.popViewControllerAnimated(true)
     }
