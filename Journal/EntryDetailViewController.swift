@@ -70,7 +70,6 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate, UITextVi
         } else {
 
             let newEntry = Entry(title: title, text: body, timestamp: now)
-            
             EntryController.sharedController.addEntry(newEntry)
         }
         
