@@ -11,63 +11,16 @@ import Foundation
 class EntryController {
     
     // MARK: - Properties
-    static let sharedController = EntryController()
-    var entries: [Entry] = []
     
-    private let entriesKey = "entriesKey"
+    // MARK: - CRUD
+    /*
+     * Only the creation is needed, since Playlists contain the songs.  If a song is
+     * removed from the Playlist, the Song instance will get deallocated.
+     */
     
-    // MARK: - Initializers
-    
-    init() {
-        
-        loadFromPersistentStore()
-        
+    static func createEntry(title: String, text: String, journal: Journal) {
+        let entry = Entry(title: title, text: text)
+        JournalController.sharedController.addEntryToJournal(entry, journal: journal)
     }
     
-    // MARK: - Methods
-    
-    func addEntry(entry: Entry) {
-        entries.append(entry)
-        
-        saveToPersistentStore()
-    }
-    
-    func updateEntry(entry: Entry, title: String, text: String) {
-        
-        if let index = entries.indexOf(entry) {
-         
-            entries[index].title = title
-            entries[index].text = text
-            entries[index].timestamp = NSDate()
-            
-        }
-        
-        saveToPersistentStore()
-    }
-    
-    func removeEntry(entry: Entry) {
-        
-        if let index = entries.indexOf(entry) {
-            
-            entries.removeAtIndex(index)
-            
-        }
-        
-        saveToPersistentStore()
-    }
-    
-    func saveToPersistentStore() {
-        
-        NSUserDefaults.standardUserDefaults().setObject(entries.map{ $0.dictionaryCopy }, forKey: entriesKey)
-        
-    }
-    
-    func loadFromPersistentStore() {
-        
-        guard let entriesDictionaryArray = NSUserDefaults.standardUserDefaults().objectForKey(entriesKey) as? [[String : AnyObject]] else {
-            return
-        }
-        
-        entries = entriesDictionaryArray.flatMap{ Entry(dictionary: $0) }
-    }
 }

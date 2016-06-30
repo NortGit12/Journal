@@ -28,10 +28,10 @@ class Entry: Equatable {
     
     // MARK: - Initializers
     
-    init(title: String, text: String, timestamp: NSDate) {
+    init(title: String, text: String) {
         self.title = title
         self.text = text
-        self.timestamp = timestamp
+        self.timestamp = NSDate()
     }
     
     init?(dictionary: [String : AnyObject]) {

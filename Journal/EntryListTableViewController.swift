@@ -9,6 +9,12 @@
 import UIKit
 
 class EntryListTableViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
+    var journal: Journal?
+    
+    // MARK: - General
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,25 +29,30 @@ class EntryListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return EntryController.sharedController.entries.count
+        
+        guard let journal = journal else {
+            return 0
+        }
+        
+        return journal.entries.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("entryListCell", forIndexPath: indexPath)
 
-        let entry = EntryController.sharedController.entries[indexPath.row]
+        if let entry = journal?.entries[indexPath.row] {
             
-        cell.textLabel?.text = entry.title
-        
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .MediumStyle
-        formatter.timeStyle = .MediumStyle
-        
-        let dateString = formatter.stringFromDate(entry.timestamp)
-        
-        cell.detailTextLabel?.text = "\tTime: \(dateString)"
+            cell.textLabel?.text = entry.title
+            
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = .MediumStyle
+            formatter.timeStyle = .MediumStyle
+            
+            let dateString = formatter.stringFromDate(entry.timestamp)
+            
+            cell.detailTextLabel?.text = "\tTime: \(dateString)"
+        }
 
         return cell
     }
@@ -52,11 +63,12 @@ class EntryListTableViewController: UITableViewController {
         if editingStyle == .Delete {
             
             // Delete the row from the data source
-            let entry = EntryController.sharedController.entries[indexPath.row]
-            EntryController.sharedController.removeEntry(entry)
-            
-            
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            if let journal = journal {
+                let entry = journal.entries[indexPath.row]
+                JournalController.sharedController.removeEntryFromJournal(entry, journal: journal)
+                
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }
         }
     }
 
@@ -66,24 +78,34 @@ class EntryListTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        // How am I getting there?
-        if segue.identifier == "newEntryDetailSegue" {
+        // What am I packing?
+        if let journal = journal {
             
-            // Just go there
-            
-        } else if segue.identifier == "existingEntryDetailSegue" {
-            
-            // Where am I going?
-            if let entryDetailViewController = segue.destinationViewController as? EntryDetailViewController {
+            // How am I getting there?
+            if segue.identifier == "newEntryDetailSegue" {
                 
-                // What am I packing?
-                if let index = tableView.indexPathForSelectedRow?.row {
-                    
-                    let entry = EntryController.sharedController.entries[index]
+                // Where am I going?
+                if let entryDetailViewController = segue.destinationViewController as? EntryDetailViewController {
                     
                     // Did I/it get there?
-                    entryDetailViewController.existingEntry = entry
-                    entryDetailViewController.title = entry.title
+                    entryDetailViewController.journal = journal
+                }
+                
+            } else if segue.identifier == "existingEntryDetailSegue" {
+                
+                // Where am I going?
+                if let entryDetailViewController = segue.destinationViewController as? EntryDetailViewController {
+                    
+                    // What am I packing?
+                    if let index = tableView.indexPathForSelectedRow?.row {
+                        
+                        let entry = journal.entries[index]
+                        
+                        // Did I/it get there?
+                        entryDetailViewController.journal = journal
+                        entryDetailViewController.entry = entry
+                        entryDetailViewController.title = entry.title
+                    }
                 }
             }
         }

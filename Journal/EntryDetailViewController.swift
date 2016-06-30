@@ -10,7 +10,8 @@ import UIKit
 
 class EntryDetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    var existingEntry: Entry?
+    var journal: Journal?
+    var entry: Entry?
 
     // MARK: - Properties
     @IBOutlet weak var titleTextField: UITextField!
@@ -25,7 +26,7 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate, UITextVi
         bodyTextArea.layer.borderColor = UIColor.grayColor().CGColor
         bodyTextArea.layer.borderWidth = 1.0
 
-        if let entry = existingEntry {
+        if let entry = entry {
             updateWith(entry)
         }
     }
@@ -56,21 +57,22 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate, UITextVi
             return
         }
         
-        let now = NSDate()
-
         /*
          * Handling:
          *  if = existing Entry
          *  else if = new Entry
          */
-        if let existingEntry = existingEntry {
+        if let journal = journal {
             
-            EntryController.sharedController.updateEntry(existingEntry, title: title, text: body)
-            
-        } else {
-
-            let newEntry = Entry(title: title, text: body, timestamp: now)
-            EntryController.sharedController.addEntry(newEntry)
+            if let entry = entry {
+                
+                JournalController.sharedController.updateEntryInJournal(entry, title: title, text: body, journal: journal)
+                
+            } else {
+                
+                let newEntry = Entry(title: title, text: body)
+                JournalController.sharedController.addEntryToJournal(newEntry, journal: journal)
+            }
         }
         
         navigationController?.popViewControllerAnimated(true)
