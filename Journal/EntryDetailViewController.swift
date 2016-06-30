@@ -8,10 +8,9 @@
 
 import UIKit
 
-class EntryDetailViewController: UIViewController {
+class EntryDetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     var existingEntry: Entry?
-    //var updatedEntryIndex = -1
 
     // MARK: - Properties
     @IBOutlet weak var titleTextField: UITextField!
@@ -23,7 +22,8 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bodyTextArea.layer.borderColor = UIColor.blackColor().CGColor
+        bodyTextArea.layer.borderColor = UIColor.grayColor().CGColor
+        bodyTextArea.layer.borderWidth = 1.0
 
         if let entry = existingEntry {
             updateWith(entry)
@@ -37,6 +37,16 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = entry.title
         bodyTextArea.text = entry.text
         
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        titleTextField.resignFirstResponder()
+        return true
+    }
+    
+    func textViewShouldReturn(textview: UITextView) -> Bool {
+        bodyTextArea.resignFirstResponder()
+        return true
     }
     
     // MARK: - Actions
@@ -55,9 +65,7 @@ class EntryDetailViewController: UIViewController {
          */
         if let existingEntry = existingEntry {
             
-            
-            let updatedEntry = Entry(title: title, text: body, timestamp: now)
-            EntryController.sharedController.updateEntry(existingEntry, withEntry: updatedEntry)
+            EntryController.sharedController.updateEntry(existingEntry, title: title, text: body)
             
         } else {
 
@@ -74,16 +82,5 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = ""
         bodyTextArea.text = ""
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

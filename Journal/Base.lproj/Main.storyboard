@@ -15,12 +15,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="entryListCell" id="qyA-yk-w0i">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="entryListCell" textLabel="J3h-am-p4Z" detailTextLabel="XgO-TV-epe" style="IBUITableViewCellStyleSubtitle" id="qyA-yk-w0i">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qyA-yk-w0i" id="0Y2-Hk-Ig3">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J3h-am-p4Z">
+                                            <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XgO-TV-epe">
+                                            <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="KQY-XK-Pfb" kind="show" identifier="existingEntryDetailSegue" id="Duc-oK-u2R"/>
@@ -60,6 +76,9 @@
                                 <rect key="frame" x="87" y="114" width="473" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KQY-XK-Pfb" id="yFv-P2-Ami"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uaw-TV-puJ">
                                 <rect key="frame" x="40" y="114" width="37" height="30"/>
@@ -77,9 +96,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkF-bn-jjk">
-                                <rect key="frame" x="288" y="442" width="70" height="30"/>
+                                <rect key="frame" x="265" y="442" width="70" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="8aK-F3-G8i"/>
+                                    <constraint firstAttribute="height" constant="30" id="lkK-QT-14G"/>
+                                    <constraint firstAttribute="width" constant="70" id="x5q-mK-N2v"/>
                                 </constraints>
                                 <state key="normal" title="Clear"/>
                                 <connections>
@@ -91,6 +111,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KQY-XK-Pfb" id="ya0-Fj-PAG"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,14 +121,14 @@
                             <constraint firstItem="9Lb-Oq-gKt" firstAttribute="top" secondItem="I3E-36-bjP" secondAttribute="bottom" constant="144" id="8tB-ve-xDD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vkD-eU-TF3" secondAttribute="trailing" constant="20" id="BbK-tX-9XR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I3E-36-bjP" secondAttribute="trailing" constant="20" id="EaD-6N-zzg"/>
-                            <constraint firstItem="pkF-bn-jjk" firstAttribute="centerX" secondItem="I3E-36-bjP" secondAttribute="centerX" id="Mn0-fG-Kxb"/>
                             <constraint firstItem="uaw-TV-puJ" firstAttribute="leading" secondItem="x1m-Tj-xVj" secondAttribute="leadingMargin" constant="20" id="NXR-O6-AfC"/>
                             <constraint firstItem="uaw-TV-puJ" firstAttribute="top" secondItem="nNW-5E-Zb2" secondAttribute="bottom" constant="50" id="QOD-IY-Rpx"/>
                             <constraint firstItem="I3E-36-bjP" firstAttribute="leading" secondItem="bss-ry-Lrr" secondAttribute="trailing" constant="10" id="RWT-hf-oap"/>
-                            <constraint firstItem="pkF-bn-jjk" firstAttribute="top" secondItem="I3E-36-bjP" secondAttribute="bottom" constant="30" id="c88-Wh-Liw"/>
                             <constraint firstItem="vkD-eU-TF3" firstAttribute="top" secondItem="nNW-5E-Zb2" secondAttribute="bottom" constant="50" id="dVb-I8-i0j"/>
+                            <constraint firstItem="pkF-bn-jjk" firstAttribute="centerX" secondItem="x1m-Tj-xVj" secondAttribute="centerX" id="fMn-1m-mdO"/>
                             <constraint firstItem="vkD-eU-TF3" firstAttribute="leading" secondItem="uaw-TV-puJ" secondAttribute="trailing" constant="10" id="hjD-lQ-pOe"/>
                             <constraint firstItem="bss-ry-Lrr" firstAttribute="top" secondItem="uaw-TV-puJ" secondAttribute="bottom" constant="20" id="iJT-6d-RnP"/>
+                            <constraint firstItem="pkF-bn-jjk" firstAttribute="top" secondItem="I3E-36-bjP" secondAttribute="bottom" constant="30" id="myY-3d-rdB"/>
                             <constraint firstItem="I3E-36-bjP" firstAttribute="top" secondItem="vkD-eU-TF3" secondAttribute="bottom" constant="20" id="pIc-Ph-8O8"/>
                             <constraint firstItem="bss-ry-Lrr" firstAttribute="leading" secondItem="x1m-Tj-xVj" secondAttribute="leadingMargin" constant="15" id="qnN-ev-2Qk"/>
                         </constraints>
@@ -148,6 +171,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="G5d-df-16U"/>
+        <segue reference="Duc-oK-u2R"/>
     </inferredMetricsTieBreakers>
 </document>

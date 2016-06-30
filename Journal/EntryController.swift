@@ -20,13 +20,17 @@ class EntryController {
         entries.append(entry)
     }
     
-    func updateEntry(existingEntry: Entry, withEntry updatedEntry: Entry) {
+    func updateEntry(entry: Entry, title: String, text: String) {
         
-        if let index = entries.indexOf(existingEntry) {
-            entries[index] = updatedEntry
+        if let index = entries.indexOf(entry) {
+         
+            entries[index].title = title
+            entries[index].text = text
+            entries[index].timestamp = NSDate()
+            
         }
-        
     }
+    
     
     func removeEntry(entry: Entry) {
         
@@ -35,7 +39,5 @@ class EntryController {
             entries.removeAtIndex(index)
             
         }
-        
     }
-    
 }

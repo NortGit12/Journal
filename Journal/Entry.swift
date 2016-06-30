@@ -10,9 +10,9 @@ import Foundation
 
 class Entry: Equatable {
     
-    let title: String
-    let text: String
-    let timestamp: NSDate
+    var title: String
+    var text: String
+    var timestamp: NSDate
     
     init(title: String, text: String, timestamp: NSDate) {
         self.title = title

@@ -34,19 +34,10 @@ class EntryListTableViewController: UITableViewController {
         let entry = EntryController.sharedController.entries[indexPath.row]
             
         cell.textLabel?.text = entry.title
-        cell.detailTextLabel?.text = "\(entry.timestamp)"
+        cell.detailTextLabel?.text = "Time: \(entry.timestamp)"
 
         return cell
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
 
     
     // Override to support editing the table view.
@@ -57,29 +48,10 @@ class EntryListTableViewController: UITableViewController {
             let entry = EntryController.sharedController.entries[indexPath.row]
             EntryController.sharedController.removeEntry(entry)
             
-//            let playlist = PlaylistController.sharedController.playlists[indexPath.row]
-//            PlaylistController.sharedController.deletePlaylist(playlist)
-            
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
     }
-    
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation
@@ -104,7 +76,7 @@ class EntryListTableViewController: UITableViewController {
                     
                     // Did I/it get there?
                     entryDetailViewController.existingEntry = entry
-                    //entryDetailViewController.updatedEntryIndex = index
+                    entryDetailViewController.title = entry.title
                 }
             }
         }
