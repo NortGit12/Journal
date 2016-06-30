@@ -14,10 +14,22 @@ class EntryController {
     static let sharedController = EntryController()
     var entries: [Entry] = []
     
+    private let entriesKey = "entriesKey"
+    
+    // MARK: - Initializers
+    
+    init() {
+        
+        loadFromPersistentStore()
+        
+    }
+    
     // MARK: - Methods
     
     func addEntry(entry: Entry) {
         entries.append(entry)
+        
+        saveToPersistentStore()
     }
     
     func updateEntry(entry: Entry, title: String, text: String) {
@@ -29,8 +41,9 @@ class EntryController {
             entries[index].timestamp = NSDate()
             
         }
+        
+        saveToPersistentStore()
     }
-    
     
     func removeEntry(entry: Entry) {
         
@@ -39,5 +52,22 @@ class EntryController {
             entries.removeAtIndex(index)
             
         }
+        
+        saveToPersistentStore()
+    }
+    
+    func saveToPersistentStore() {
+        
+        NSUserDefaults.standardUserDefaults().setObject(entries.map{ $0.dictionaryCopy }, forKey: entriesKey)
+        
+    }
+    
+    func loadFromPersistentStore() {
+        
+        guard let entriesDictionaryArray = NSUserDefaults.standardUserDefaults().objectForKey(entriesKey) as? [[String : AnyObject]] else {
+            return
+        }
+        
+        entries = entriesDictionaryArray.flatMap{ Entry(dictionary: $0) }
     }
 }
