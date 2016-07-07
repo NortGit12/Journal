@@ -41,19 +41,20 @@ class EntryListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("entryListCell", forIndexPath: indexPath)
 
-        if let entry = journal?.entries[indexPath.row] {
-            
-            cell.textLabel?.text = entry.title
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .MediumStyle
-            formatter.timeStyle = .MediumStyle
-            
-            let dateString = formatter.stringFromDate(entry.timestamp)
-            
-            cell.detailTextLabel?.text = "\tTime: \(dateString)"
-        }
-
+        let entry = EntryController.sharedController.entries[indexPath.row]
+        
+        guard let timestamp = entry.timestamp else { return UITableViewCell() }
+        
+        cell.textLabel?.text = entry.title
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .MediumStyle
+        
+        let dateString = formatter.stringFromDate(timestamp)
+        
+        cell.detailTextLabel?.text = "\tTime: \(dateString)"
+        
         return cell
     }
 
@@ -64,8 +65,13 @@ class EntryListTableViewController: UITableViewController {
             
             // Delete the row from the data source
             if let journal = journal {
-                let entry = journal.entries[indexPath.row]
-                JournalController.sharedController.removeEntryFromJournal(entry, journal: journal)
+                
+//                let entry = journal.entries[indexPath.row]
+//                JournalController.sharedController.removeEntryFromJournal(entry, journal: journal)
+                
+                let entry = EntryController.sharedController.entries[indexPath.row]
+                
+                EntryController.sharedController.removeEntry(entry)
                 
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             }
